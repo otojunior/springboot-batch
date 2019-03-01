@@ -1,10 +1,9 @@
 /**
  * 
  */
-package br.org.otojunior.sample.springbootbatch;
+package br.org.otojunior.sample.springbootbatch.item;
 
 import java.util.Arrays;
-import java.util.List;
 
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.support.ListItemReader;
@@ -16,7 +15,7 @@ import org.springframework.context.annotation.Configuration;
  *
  */
 @Configuration
-public class SampleConfigFactory {
+public class SampleItemReaderFactory {
 	/**
 	 * 
 	 * @return
