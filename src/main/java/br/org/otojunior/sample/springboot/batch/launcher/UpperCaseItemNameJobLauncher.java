@@ -29,8 +29,10 @@ public class UpperCaseItemNameJobLauncher {
 	 * 
 	 * @throws Exception
 	 */
-	@Scheduled(fixedDelay=10_000) // 10 segundos.
+	@Scheduled(fixedDelay=5_000) // 10 segundos.
 	public void runJob() throws Exception {
+		System.err.println("ANTES LAUNCHER");
 		this.jobOperator.startNextInstance(SampleBatchConfiguration.UPPERCASEITEMNAME_JOB_NAME);
+		System.err.println("DEPOIS LAUNCHER");
 	}
 }

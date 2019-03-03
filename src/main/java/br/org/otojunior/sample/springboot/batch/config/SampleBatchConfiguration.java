@@ -25,9 +25,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.task.SimpleAsyncTaskExecutor;
 import org.springframework.core.task.SyncTaskExecutor;
-
-import br.org.otojunior.sample.springboot.batch.data.Item;
+import org.springframework.core.task.TaskExecutor;
 
 @Configuration
 @EnableBatchProcessing
@@ -81,9 +81,11 @@ public class SampleBatchConfiguration extends DefaultBatchConfigurer {
 	public JobLauncher getJobLauncher() {
 		SimpleJobLauncher jobLauncher = null;
 		try {
+			TaskExecutor taskExecutor = new SyncTaskExecutor();
+			//TaskExecutor taskExecutor = new SimpleAsyncTaskExecutor();
 			jobLauncher = new SimpleJobLauncher();
 			jobLauncher.setJobRepository(this.jobRepository);
-			jobLauncher.setTaskExecutor(new SyncTaskExecutor());
+			jobLauncher.setTaskExecutor(taskExecutor);
 			jobLauncher.afterPropertiesSet();
 		}
 		catch (Exception e) {
@@ -118,12 +120,12 @@ public class SampleBatchConfiguration extends DefaultBatchConfigurer {
      */
 	@Bean
 	public Step upperCaseItemNameStep(StepExecutionListener listener,
-			ItemReader<Item> reader,
-			ItemProcessor<Item, Item> processor,
-			ItemWriter<Item> writer) {
+			ItemReader<String> reader,
+			ItemProcessor<String, String> processor,
+			ItemWriter<String> writer) {
 		return stepBuilderFactory.get(UPPERCASEITEMNAME_STEP_NAME).
 			listener(listener).
-			<Item, Item>chunk(8).
+			<String, String>chunk(5).
 			reader(reader).
 			processor(processor).
 			writer(writer).
