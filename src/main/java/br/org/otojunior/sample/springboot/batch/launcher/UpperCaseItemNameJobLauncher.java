@@ -3,6 +3,8 @@
  */
 package br.org.otojunior.sample.springboot.batch.launcher;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.launch.JobOperator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -22,6 +24,8 @@ import br.org.otojunior.sample.springboot.batch.config.SampleBatchConfiguration;
 	havingValue="true",
 	matchIfMissing=false)
 public class UpperCaseItemNameJobLauncher {
+	private static final Logger log = LoggerFactory.getLogger(UpperCaseItemNameJobLauncher.class);
+
 	@Autowired
 	public JobOperator jobOperator;
 	
@@ -31,8 +35,8 @@ public class UpperCaseItemNameJobLauncher {
 	 */
 	@Scheduled(fixedDelay=5_000) // 10 segundos.
 	public void runJob() throws Exception {
-		System.err.println("ANTES LAUNCHER");
+		log.warn("ANTES LAUNCHER");
 		this.jobOperator.startNextInstance(SampleBatchConfiguration.UPPERCASEITEMNAME_JOB_NAME);
-		System.err.println("DEPOIS LAUNCHER");
+		log.warn("DEPOIS LAUNCHER");
 	}
 }
