@@ -3,27 +3,31 @@
  */
 package br.org.otojunior.sample.springboot.batch.item;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.util.zip.GZIPOutputStream;
+
 import org.springframework.batch.item.ItemProcessor;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StreamUtils;
 
 /**
  * @author Oto Soares Coelho Junior (oto.coelho-junior@serpro.gov.br)
  *
  */
 @Component
-public class CustomItemProcessor implements ItemProcessor<String, String> {
-	private static Logger LOG = LoggerFactory.getLogger(CustomItemProcessor.class);
-	
-	/**
-	 * {@inheritDoc}
-	 */
+public class CustomItemProcessor implements ItemProcessor<Resource, InputStream> {
 	@Override
-	public String process(String input) throws Exception {
-		String output = input.toUpperCase();
-		LOG.debug(output);
-		Thread.sleep(100);
-		return output;
+	public InputStream process(Resource item) throws Exception {
+		File tmpfile = File.createTempFile("prefix", "suffix");
+		
+		StreamUtils.copy(item.getInputStream(),
+			new GZIPOutputStream(
+			new FileOutputStream(tmpfile)));
+		
+		return new FileInputStream(tmpfile);
 	}
 }

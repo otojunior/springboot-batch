@@ -3,11 +3,13 @@
  */
 package br.org.otojunior.sample.springboot.batch.item;
 
+import java.io.InputStream;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
 import org.springframework.batch.item.ItemWriter;
+import org.springframework.batch.item.util.FileUtils;
 import org.springframework.stereotype.Component;
 
 /**
@@ -15,11 +17,11 @@ import org.springframework.stereotype.Component;
  *
  */
 @Component
-public class CustomItemWriter implements ItemWriter<String> {
-	private static Logger LOG = LoggerFactory.getLogger(CustomItemWriter.class);
-	
+public class CustomItemWriter implements ItemWriter<InputStream> {
 	@Override
-	public void write(List<? extends String> items) throws Exception {
-		LOG.debug("GRAVADO: {}", items.size());
+	public void write(List<? extends InputStream> items) throws Exception {
+		items.forEach(item -> {
+			System.out.println("Gravar no Ceph: " + item);
+		});
 	}
 }

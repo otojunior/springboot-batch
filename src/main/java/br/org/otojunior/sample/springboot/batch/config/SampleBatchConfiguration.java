@@ -1,5 +1,7 @@
 package br.org.otojunior.sample.springboot.batch.config;
 
+import java.io.InputStream;
+
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecutionListener;
 import org.springframework.batch.core.Step;
@@ -18,21 +20,25 @@ import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.core.launch.support.SimpleJobLauncher;
 import org.springframework.batch.core.launch.support.SimpleJobOperator;
 import org.springframework.batch.core.repository.JobRepository;
-import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemReader;
-import org.springframework.batch.item.ItemWriter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.Resource;
 import org.springframework.core.task.SyncTaskExecutor;
 import org.springframework.core.task.TaskExecutor;
+
+import br.org.otojunior.sample.springboot.batch.item.CustomItemProcessor;
+import br.org.otojunior.sample.springboot.batch.item.CustomItemReader;
+import br.org.otojunior.sample.springboot.batch.item.CustomItemWriter;
 
 @Configuration
 @EnableBatchProcessing
 public class SampleBatchConfiguration extends DefaultBatchConfigurer {
-	public static final String UPPERCASEITEMNAME_JOB_NAME = "UpperCaseItemNameJob";
-	public static final String UPPERCASEITEMNAME_STEP_NAME = "UpperCaseItemNameStep";
+	public static final String SAMPLE_JOB_NAME = "SampleJob";
+	public static final String SAMPLE_STEP_NAME = "SampleStep";
 	
 	@Autowired private JobRegistry jobRegistry;
 	@Autowired private JobLauncher jobLauncher;
@@ -104,8 +110,8 @@ public class SampleBatchConfiguration extends DefaultBatchConfigurer {
      * @return
      */
     @Bean
-    public Job upperCaseItemNameJob(JobExecutionListener listener, Step step) {
-        return jobBuilderFactory.get(UPPERCASEITEMNAME_JOB_NAME).
+    public Job samplejob(JobExecutionListener listener, Step step) {
+        return jobBuilderFactory.get(SAMPLE_JOB_NAME).
         	listener(listener).
         	incrementer(new RunIdIncrementer()).
             start(step).
@@ -118,13 +124,13 @@ public class SampleBatchConfiguration extends DefaultBatchConfigurer {
      * @return
      */
 	@Bean
-	public Step upperCaseItemNameStep(StepExecutionListener listener,
-			ItemReader<String> reader,
-			ItemProcessor<String, String> processor,
-			ItemWriter<String> writer) {
-		return stepBuilderFactory.get(UPPERCASEITEMNAME_STEP_NAME).
+	public Step samplestep(StepExecutionListener listener,
+			CustomItemReader reader,
+			CustomItemProcessor processor,
+			CustomItemWriter writer) {
+		return stepBuilderFactory.get(SAMPLE_STEP_NAME).
 			listener(listener).
-			<String, String>chunk(5).
+			<Resource, InputStream>chunk(1).
 			reader(reader).
 			processor(processor).
 			writer(writer).
