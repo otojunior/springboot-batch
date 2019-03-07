@@ -23,7 +23,7 @@ public class CustomItemProcessor implements ItemProcessor<String, String> {
 	public String process(String input) throws Exception {
 		String output = input.toUpperCase();
 		LOG.debug(output);
-		Thread.sleep(500);
+		Thread.sleep(100);
 		return output;
 	}
 }

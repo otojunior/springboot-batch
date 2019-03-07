@@ -33,10 +33,8 @@ public class UpperCaseItemNameJobLauncher {
 	 * 
 	 * @throws Exception
 	 */
-	@Scheduled(fixedDelay=5_000) // 10 segundos.
+	@Scheduled(fixedDelay=1_000) // 10 segundos.
 	public void runJob() throws Exception {
-		log.warn("ANTES LAUNCHER");
 		this.jobOperator.startNextInstance(SampleBatchConfiguration.UPPERCASEITEMNAME_JOB_NAME);
-		log.warn("DEPOIS LAUNCHER");
 	}
 }
