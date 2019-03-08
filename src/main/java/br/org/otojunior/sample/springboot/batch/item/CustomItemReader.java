@@ -8,11 +8,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.batch.item.ExecutionContext;
 import org.springframework.batch.item.ItemStreamException;
-import org.springframework.batch.item.ItemStreamReader;
 import org.springframework.batch.item.NonTransientResourceException;
 import org.springframework.batch.item.ParseException;
 import org.springframework.batch.item.UnexpectedInputException;
@@ -29,20 +26,17 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class CustomItemReader extends AbstractItemStreamItemReader<Resource> {
-	private static final Logger log = LoggerFactory.getLogger(CustomItemReader.class);
-
 	@Autowired
 	private ResourceLoader resourceLoader;
 	
 	private List<Resource> resources;
-	
 
 	@Override
 	public void open(ExecutionContext executionContext) throws ItemStreamException {
 		try {
 			Resource[] res = ResourcePatternUtils
 				.getResourcePatternResolver(resourceLoader)
-				.getResources("classpath:input*.txt");
+				.getResources("file:entrada/input*.txt");
 			this.resources = new ArrayList<>(Arrays.asList(res));
 		} catch (IOException e) {
 			e.printStackTrace();

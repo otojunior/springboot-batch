@@ -19,7 +19,7 @@ import org.springframework.scheduling.annotation.Scheduled;
  */
 @Configuration
 @ConditionalOnProperty(
-	prefix="br.org.otojunior.sample.springboot.batch.schedule",
+	prefix="sample.springboot.batch.schedule",
 	name=SAMPLE_JOB_NAME)
 public class SampleJobLauncher {
 	private static final Logger log = LoggerFactory.getLogger(SampleJobLauncher.class);
