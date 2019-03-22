@@ -1,12 +1,10 @@
 /**
  * 
  */
-package br.org.otojunior.sample.springboot.batch.item.factory;
+package br.org.otojunior.sample.springboot.batch.job.custom.stepum;
 
 import javax.sql.DataSource;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.database.JdbcCursorItemReader;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +16,7 @@ import org.springframework.context.annotation.Configuration;
  *
  */
 @Configuration
-public class CustomItemFactory {
-	@SuppressWarnings("unused")
-	private static final Logger LOG = LoggerFactory.getLogger(CustomItemFactory.class);
-	
+public class CustomItemReaderFactory {
 	@Autowired
 	private DataSource dataSource;
 	 

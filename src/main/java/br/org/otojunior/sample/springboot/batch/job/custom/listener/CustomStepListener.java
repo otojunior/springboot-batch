@@ -1,7 +1,7 @@
 /**
  * 
  */
-package br.org.otojunior.sample.springboot.batch.listener;
+package br.org.otojunior.sample.springboot.batch.job.custom.listener;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,15 +16,15 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class CustomStepListener implements StepExecutionListener {
-	private static Logger LOG = LoggerFactory.getLogger(CustomStepListener.class);
+	private static Logger log = LoggerFactory.getLogger(CustomStepListener.class);
 	
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public void beforeStep(StepExecution stepExecution) {
-		if (LOG.isDebugEnabled()) {
-			LOG.debug(stepExecution.toString());
+		if (log.isDebugEnabled()) {
+			log.debug(stepExecution.toString());
 		}
 	}
 
@@ -33,8 +33,8 @@ public class CustomStepListener implements StepExecutionListener {
 	 */
 	@Override
 	public ExitStatus afterStep(StepExecution stepExecution) {
-		if (LOG.isDebugEnabled()) {
-			LOG.debug(stepExecution.toString());
+		if (log.isDebugEnabled()) {
+			log.debug(stepExecution.toString());
 		}
 		return stepExecution.getExitStatus();
 	}

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package br.org.otojunior.sample.springboot.batch.listener;
+package br.org.otojunior.sample.springboot.batch.job.custom.listener;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,15 +16,15 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class CustomJobListener implements JobExecutionListener {
-	private static Logger LOG = LoggerFactory.getLogger(CustomJobListener.class);
+	private static Logger log = LoggerFactory.getLogger(CustomJobListener.class);
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public void afterJob(JobExecution jobExecution) {
-		if (LOG.isDebugEnabled()) {
-			LOG.debug(jobExecution.toString());
+		if (log.isDebugEnabled()) {
+			log.debug(jobExecution.toString());
 		}
 	}
 
@@ -33,8 +33,8 @@ public class CustomJobListener implements JobExecutionListener {
 	 */
 	@Override
 	public void beforeJob(JobExecution jobExecution) {
-		if (LOG.isDebugEnabled()) {
-			LOG.debug(jobExecution.toString());
+		if (log.isDebugEnabled()) {
+			log.debug(jobExecution.toString());
 		}
 	}
 }

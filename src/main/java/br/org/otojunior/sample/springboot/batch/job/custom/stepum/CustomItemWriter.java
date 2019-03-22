@@ -1,7 +1,7 @@
 /**
  * 
  */
-package br.org.otojunior.sample.springboot.batch.item;
+package br.org.otojunior.sample.springboot.batch.job.custom.stepum;
 
 import java.util.List;
 
@@ -16,10 +16,10 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class CustomItemWriter implements ItemWriter<String> {
-	private static Logger LOG = LoggerFactory.getLogger(CustomItemWriter.class);
+	private static Logger log = LoggerFactory.getLogger(CustomItemWriter.class);
 	
 	@Override
 	public void write(List<? extends String> items) throws Exception {
-		LOG.debug("GRAVADO: {}", items.size());
+		log.debug("GRAVADO: {}", items.size());
 	}
 }
