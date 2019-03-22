@@ -50,7 +50,7 @@ public class SampleConfigJob {
     		SampleItemProcessor processor,
     		SampleItemWriter writer) {
         return stepBuilderFactory.get("sampleStep")
-            .<String, String>chunk(3)
+            .<String, String>chunk(7)
             .reader(reader)
             .processor(processor)
             .writer(writer)
