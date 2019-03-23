@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.task.SimpleAsyncTaskExecutor;
 import org.springframework.core.task.SyncTaskExecutor;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -66,8 +67,8 @@ public class SampleBatchConfiguration {
 	public JobLauncher getJobLauncher() {
 		SimpleJobLauncher jobLauncher = null;
 		try {
-			TaskExecutor taskExecutor = new SyncTaskExecutor();
-			//TaskExecutor taskExecutor = new SimpleAsyncTaskExecutor();
+//			TaskExecutor taskExecutor = new SyncTaskExecutor();
+			TaskExecutor taskExecutor = new SimpleAsyncTaskExecutor();
 			jobLauncher = new SimpleJobLauncher();
 			jobLauncher.setJobRepository(this.jobRepository);
 			jobLauncher.setTaskExecutor(taskExecutor);

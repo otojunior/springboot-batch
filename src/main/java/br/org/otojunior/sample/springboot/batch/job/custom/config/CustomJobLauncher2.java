@@ -17,7 +17,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 @ConditionalOnProperty(
 	prefix="br.org.otojunior.sample.springboot.batch.schedule",
 	name=CustomJobConfig.CUSTOM_JOB_NAME)
-public class CustomJobLauncher {
+public class CustomJobLauncher2 {
 	@Autowired
 	public JobOperator jobOperator;
 	
@@ -27,6 +27,6 @@ public class CustomJobLauncher {
 	 */
 	//@Scheduled(fixedDelay=1_000) // 10 segundos.
 	public void runJob() throws Exception {
-		this.jobOperator.startNextInstance(CustomJobConfig.CUSTOM_JOB_NAME);
+		this.jobOperator.startNextInstance(CustomJobConfig.CUSTOM_JOB_NAME2);
 	}
 }

@@ -24,11 +24,26 @@ public class CustomItemReaderFactory {
      * 
      * @return
      */
-    @Bean
+    @Bean("reader1")
     public ItemReader<String> jdbcreader() {
     	JdbcCursorItemReader<String> reader = new JdbcCursorItemReader<>();
 		reader.setSql(
-			"select concat('item',x) as item "
+			"select concat('vermelho',x) as item "
+			+ "from generate_series(1,48)");
+		reader.setDataSource(this.dataSource);
+		reader.setRowMapper((rs, rnum) -> rs.getString("item"));
+		return reader;
+    }
+    
+    /**
+     * 
+     * @return
+     */
+    @Bean("reader2")
+    public ItemReader<String> jdbcreader2() {
+    	JdbcCursorItemReader<String> reader = new JdbcCursorItemReader<>();
+		reader.setSql(
+			"select concat('azul',x) as item "
 			+ "from generate_series(1,48)");
 		reader.setDataSource(this.dataSource);
 		reader.setRowMapper((rs, rnum) -> rs.getString("item"));
