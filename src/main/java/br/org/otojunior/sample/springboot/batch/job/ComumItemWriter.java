@@ -1,7 +1,7 @@
 /**
  * 
  */
-package br.org.otojunior.sample.springboot.batch.job.custom.stepum;
+package br.org.otojunior.sample.springboot.batch.job;
 
 import java.util.List;
 
@@ -15,8 +15,8 @@ import org.springframework.stereotype.Component;
  *
  */
 @Component
-public class CustomItemWriter implements ItemWriter<String> {
-	private static Logger log = LoggerFactory.getLogger(CustomItemWriter.class);
+public class ComumItemWriter implements ItemWriter<String> {
+	private static Logger log = LoggerFactory.getLogger(ComumItemWriter.class);
 	
 	@Override
 	public void write(List<? extends String> items) throws Exception {

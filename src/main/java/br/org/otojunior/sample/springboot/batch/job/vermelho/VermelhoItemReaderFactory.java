@@ -1,7 +1,7 @@
 /**
  * 
  */
-package br.org.otojunior.sample.springboot.batch.job.custom.stepum;
+package br.org.otojunior.sample.springboot.batch.job.vermelho;
 
 import javax.sql.DataSource;
 
@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Configuration;
  *
  */
 @Configuration
-public class CustomItemReaderFactory {
+public class VermelhoItemReaderFactory {
 	@Autowired
 	private DataSource dataSource;
 	 
@@ -24,26 +24,11 @@ public class CustomItemReaderFactory {
      * 
      * @return
      */
-    @Bean("reader1")
+    @Bean("vermelhoReader")
     public ItemReader<String> jdbcreader() {
     	JdbcCursorItemReader<String> reader = new JdbcCursorItemReader<>();
 		reader.setSql(
 			"select concat('vermelho',x) as item "
-			+ "from generate_series(1,48)");
-		reader.setDataSource(this.dataSource);
-		reader.setRowMapper((rs, rnum) -> rs.getString("item"));
-		return reader;
-    }
-    
-    /**
-     * 
-     * @return
-     */
-    @Bean("reader2")
-    public ItemReader<String> jdbcreader2() {
-    	JdbcCursorItemReader<String> reader = new JdbcCursorItemReader<>();
-		reader.setSql(
-			"select concat('azul',x) as item "
 			+ "from generate_series(1,48)");
 		reader.setDataSource(this.dataSource);
 		reader.setRowMapper((rs, rnum) -> rs.getString("item"));

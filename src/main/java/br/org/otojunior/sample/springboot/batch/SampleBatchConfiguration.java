@@ -1,6 +1,7 @@
 package br.org.otojunior.sample.springboot.batch;
 
 import org.springframework.batch.core.configuration.JobRegistry;
+import org.springframework.batch.core.configuration.annotation.DefaultBatchConfigurer;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.support.JobRegistryBeanPostProcessor;
 import org.springframework.batch.core.converter.DefaultJobParametersConverter;
@@ -15,14 +16,13 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.task.SimpleAsyncTaskExecutor;
-import org.springframework.core.task.SyncTaskExecutor;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 @Configuration
 @EnableBatchProcessing
 @EnableScheduling
-public class SampleBatchConfiguration {
+public class SampleBatchConfiguration extends DefaultBatchConfigurer  {
 	@Autowired private JobRegistry jobRegistry;
 	@Autowired private JobLauncher jobLauncher;
 	@Autowired private JobRepository jobRepository;

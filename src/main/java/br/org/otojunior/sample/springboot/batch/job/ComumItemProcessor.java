@@ -1,7 +1,7 @@
 /**
  * 
  */
-package br.org.otojunior.sample.springboot.batch.job.custom.stepum;
+package br.org.otojunior.sample.springboot.batch.job;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,8 +13,8 @@ import org.springframework.stereotype.Component;
  *
  */
 @Component
-public class CustomItemProcessor implements ItemProcessor<String, String> {
-	private static Logger log = LoggerFactory.getLogger(CustomItemProcessor.class);
+public class ComumItemProcessor implements ItemProcessor<String, String> {
+	private static Logger log = LoggerFactory.getLogger(ComumItemProcessor.class);
 	
 	/**
 	 * {@inheritDoc}
@@ -23,7 +23,7 @@ public class CustomItemProcessor implements ItemProcessor<String, String> {
 	public String process(String input) throws Exception {
 		String output = input.toUpperCase();
 		log.debug(output);
-		Thread.sleep(100);
+		Thread.sleep(200);
 		return output;
 	}
 }

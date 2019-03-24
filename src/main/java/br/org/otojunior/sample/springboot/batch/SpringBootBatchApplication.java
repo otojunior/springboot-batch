@@ -9,7 +9,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import br.org.otojunior.sample.springboot.batch.job.custom.config.CustomJobConfig;
+import br.org.otojunior.sample.springboot.batch.job.azul.AzulJobConfig;
+import br.org.otojunior.sample.springboot.batch.job.vermelho.VermelhoJobConfig;
 
 /**
  * 
@@ -32,7 +33,7 @@ public class SpringBootBatchApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		// TODO Auto-generated method stub
-		this.jobOperator.startNextInstance(CustomJobConfig.CUSTOM_JOB_NAME);
-		this.jobOperator.startNextInstance(CustomJobConfig.CUSTOM_JOB_NAME2);
+		this.jobOperator.startNextInstance(VermelhoJobConfig.VERMELHO_JOB_NAME);
+		this.jobOperator.startNextInstance(AzulJobConfig.AZUL_JOB_NAME);
 	}
 }
