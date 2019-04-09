@@ -22,7 +22,7 @@ public class SampleItemProcessor implements ItemProcessor<String, String>  {
 	@Override
 	public String process(String item) throws Exception {
 		String processed = item.toUpperCase();
-		Thread.sleep(200); // Simulate hard work
+		Thread.sleep(500); // Simulate hard work
 		
 		log.debug("{} ---> {}", item, processed );
 		return processed; 

@@ -6,6 +6,7 @@ package br.org.otojunior.sample.springbootbatch;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.JobRegistry;
+import org.springframework.batch.core.configuration.annotation.DefaultBatchConfigurer;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
@@ -25,9 +26,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.task.SimpleAsyncTaskExecutor;
-import org.springframework.core.task.SyncTaskExecutor;
 import org.springframework.core.task.TaskExecutor;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import br.org.otojunior.sample.springbootbatch.item.SampleItemProcessor;
 import br.org.otojunior.sample.springbootbatch.item.SampleItemWriter;
@@ -38,7 +37,7 @@ import br.org.otojunior.sample.springbootbatch.item.SampleItemWriter;
  */
 @Configuration
 @EnableBatchProcessing
-public class SampleConfigJob {
+public class SampleConfigJob extends DefaultBatchConfigurer {
 	@Autowired public JobBuilderFactory jobBuilderFactory;
     @Autowired public StepBuilderFactory stepBuilderFactory;
 
@@ -87,7 +86,7 @@ public class SampleConfigJob {
 		SimpleJobLauncher jobLauncher = null;
 		try {
 //			TaskExecutor taskExecutor = new SyncTaskExecutor();
-			TaskExecutor taskExecutor = new ThreadPoolTaskExecutor();
+			TaskExecutor taskExecutor = new SimpleAsyncTaskExecutor("job_thread_");
 			jobLauncher = new SimpleJobLauncher();
 			jobLauncher.setJobRepository(this.jobRepository);
 			jobLauncher.setTaskExecutor(taskExecutor);
@@ -152,7 +151,7 @@ public class SampleConfigJob {
     		SampleItemProcessor processor,
     		SampleItemWriter writer) {
         return stepBuilderFactory.get("sampleStep2")
-            .<String, String>chunk(7)
+            .<String, String>chunk(5)
             .reader(reader)
             .processor(processor)
             .writer(writer)

@@ -24,6 +24,6 @@ public class SampleItemWriter implements ItemWriter<String>  {
 	@Override
 	public void write(List<? extends String> items) throws Exception {
 		log.debug("Writing {} itens", items.size());
-		Thread.sleep(250);
+		Thread.sleep(500);
 	}
 }
