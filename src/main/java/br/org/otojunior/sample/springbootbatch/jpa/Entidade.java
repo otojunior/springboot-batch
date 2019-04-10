@@ -1,7 +1,7 @@
 /**
  * 
  */
-package br.org.otojunior.sample.springbootbatch.item;
+package br.org.otojunior.sample.springbootbatch.jpa;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
