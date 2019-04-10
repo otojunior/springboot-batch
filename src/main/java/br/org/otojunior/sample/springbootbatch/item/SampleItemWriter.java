@@ -4,6 +4,7 @@
 package br.org.otojunior.sample.springbootbatch.item;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,9 +32,9 @@ public class SampleItemWriter implements ItemWriter<String>  {
 	@Override
 	public void write(List<? extends String> items) throws Exception {
 		log.debug("Writing {} itens", items.size());
-		items.forEach(item -> {
-			Entidade e = new Entidade(item);
-			repository.save(e);
-		});
+		repository.saveAll(items
+			.stream()
+			.map(Entidade::new)
+			.collect(Collectors.toList()));
 	}
 }
