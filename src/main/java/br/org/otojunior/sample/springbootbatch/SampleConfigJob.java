@@ -3,6 +3,8 @@
  */
 package br.org.otojunior.sample.springbootbatch;
 
+import javax.persistence.EntityManagerFactory;
+
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.JobRegistry;
@@ -27,6 +29,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.task.SimpleAsyncTaskExecutor;
 import org.springframework.core.task.TaskExecutor;
+import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.transaction.PlatformTransactionManager;
 
 import br.org.otojunior.sample.springbootbatch.item.SampleItemProcessor;
 import br.org.otojunior.sample.springbootbatch.item.SampleItemWriter;
@@ -37,16 +41,18 @@ import br.org.otojunior.sample.springbootbatch.item.SampleItemWriter;
  */
 @Configuration
 @EnableBatchProcessing
-public class SampleConfigJob extends DefaultBatchConfigurer {
-	@Autowired public JobBuilderFactory jobBuilderFactory;
-    @Autowired public StepBuilderFactory stepBuilderFactory;
-
+public class SampleConfigJob extends DefaultBatchConfigurer  {
+	@Autowired private JobBuilderFactory jobBuilderFactory;
+    @Autowired private StepBuilderFactory stepBuilderFactory;
     @Autowired private JobRegistry jobRegistry;
 	@Autowired private JobLauncher jobLauncher;
 	@Autowired private JobRepository jobRepository;
 	@Autowired private JobExplorer jobExplorer;
     @Autowired private ApplicationContext applicationContext;
+    @Autowired private EntityManagerFactory entityManagerFactory;
     
+    private PlatformTransactionManager transactionManager;
+
     /**
      * 
      * @return
@@ -60,28 +66,12 @@ public class SampleConfigJob extends DefaultBatchConfigurer {
 		registrar.afterPropertiesSet();
 		return registrar;
 	}
-
-    /**
-     * 
-     * @return
-     * @throws Exception
-     */
-	@Bean
-	public JobOperator jobOperator() throws Exception {
-		SimpleJobOperator simpleJobOperator = new SimpleJobOperator();
-		simpleJobOperator.setJobLauncher(this.jobLauncher);
-		simpleJobOperator.setJobParametersConverter(new DefaultJobParametersConverter());
-		simpleJobOperator.setJobRepository(this.jobRepository);
-		simpleJobOperator.setJobExplorer(this.jobExplorer);
-		simpleJobOperator.setJobRegistry(this.jobRegistry);
-		simpleJobOperator.afterPropertiesSet();
-		return simpleJobOperator;
-	}
     
 	/**
 	 * {@inheritDoc}
 	 */
 	@Bean
+	@Override
 	public JobLauncher getJobLauncher() {
 		SimpleJobLauncher jobLauncher = null;
 		try {
@@ -97,8 +87,45 @@ public class SampleConfigJob extends DefaultBatchConfigurer {
 		}
 		return jobLauncher;
 	}
+	
+	/**
+     * 
+     * @return
+     * @throws Exception
+     */
+	@Bean
+	public JobOperator jobOperator() throws Exception {
+		SimpleJobOperator simpleJobOperator = new SimpleJobOperator();
+		simpleJobOperator.setJobLauncher(this.jobLauncher);
+		simpleJobOperator.setJobParametersConverter(new DefaultJobParametersConverter());
+		simpleJobOperator.setJobRepository(this.jobRepository);
+		simpleJobOperator.setJobExplorer(this.jobExplorer);
+		simpleJobOperator.setJobRegistry(this.jobRegistry);
+		simpleJobOperator.afterPropertiesSet();
+		return simpleJobOperator;
+	}
+
+	/**
+	 * @return the transactionManager
+	 */
+    @Override
+	public PlatformTransactionManager getTransactionManager() {
+		return transactionManager;
+	}
     
     /**
+   	 * @param transactionManager the transactionManager to set
+   	 */
+   	@Autowired
+   	public void setTransactionManager(PlatformTransactionManager transactionManager) {
+   		this.transactionManager = new JpaTransactionManager(entityManagerFactory);
+   	}
+   	
+   	/*
+   	 * ********************** CONFIGURACAO DOS JOBS ********************** 
+   	 */
+
+	/**
      * 
      * @param step1
      * @return
@@ -110,7 +137,7 @@ public class SampleConfigJob extends DefaultBatchConfigurer {
             .start(step1)
             .build();
     }
-
+    
     /**
      * 
      * @param writer
@@ -127,8 +154,8 @@ public class SampleConfigJob extends DefaultBatchConfigurer {
             .writer(writer)
             .build();
     }
-    
-    /**
+
+	/**
      * 
      * @param step1
      * @return
@@ -141,7 +168,7 @@ public class SampleConfigJob extends DefaultBatchConfigurer {
             .build();
     }
 
-    /**
+	/**
      * 
      * @param writer
      * @return
